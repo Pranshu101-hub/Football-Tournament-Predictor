@@ -30,15 +30,15 @@ TEAM_NAME_MAP = {
     "Türkiye": "Turkey"
 }
 
-def clean_team_name(name: str) -> str:
-    """Standardizes team names based on the defined mapping."""
+def clean_team_name(name: str):
+    #standardizes team names based on the defined mapping.
     if not isinstance(name, str):
         return str(name)
     name = name.strip()
     return TEAM_NAME_MAP.get(name, name)
 
 class FootballPreprocessor:
-    """Preprocesses raw football datasets and merges them without lookahead bias."""
+    #Preprocesses raw football datasets and merges them without lookahead bias.
     
     def __init__(self, config_path: str = "config.yaml"):
         self.config = load_config(config_path)
