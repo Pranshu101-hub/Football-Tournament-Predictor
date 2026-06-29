@@ -14,15 +14,15 @@ class FootballDataLoader:
         
         self.raw_dir = get_absolute_path(self.config["paths"]["raw_dir"])
         os.makedirs(self.raw_dir, exist_ok=True)
-        self.results_url = self.config["paths"]["raw_results_url"]
-        self.shootouts_url = self.config["paths"]["raw_shootouts_url"]
-        self.rankings_url = self.config["paths"]["raw_rankings_url"]
+        self.results_url = self.config["paths"]["raw_results_url"] #outcomes
+        self.shootouts_url = self.config["paths"]["raw_shootouts_url"] #pen shootout
+        self.rankings_url = self.config["paths"]["raw_rankings_url"] #fifa rankings
         self.results_path = os.path.join(self.raw_dir, "results.csv")
         #self.rankings_url =self.config["paths"]["raw_rankings_url"]
         #self.results_path = os.path.join(self.raw_dir, "results.csv")
         self.shootouts_path = os.path.join(self.raw_dir, "shootouts.csv")
         self.rankings_path = os.path.join(self.raw_dir, "rankings.csv")
-        self.confederations_url = self.config["paths"]["raw_confederations_url"]
+        self.confederations_url = self.config["paths"]["raw_confederations_url"] #all the confeds
         self.confederations_path = os.path.join(self.raw_dir, "confederations.csv")
         # self.cache_expiry_days = self.config.get("cache_expiry", 7)
 
