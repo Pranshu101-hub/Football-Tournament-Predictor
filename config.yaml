@@ -1,0 +1,39 @@
+# Football Tournament Predictor Configuration
+
+paths:
+  raw_results_url: "https://raw.githubusercontent.com/martj42/international_results/master/results.csv"
+  raw_shootouts_url: "https://raw.githubusercontent.com/martj42/international_results/master/shootouts.csv"
+  raw_rankings_url: "https://raw.githubusercontent.com/Dato-Futbol/fifa-ranking/master/ranking_fifa_historical.csv"
+  raw_confederations_url: "https://raw.githubusercontent.com/fivethirtyeight/data/master/fifa/fifa_countries_audience.csv"
+  
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  external_dir: "data/external"
+  models_dir: "models"
+  reports_dir: "reports"
+
+preprocessing:
+  start_year: 1993  # FIFA rankings started in 1992-1993, modern era of football
+  test_split_date: "2022-01-01"  # Train on data before, evaluate/test on data after
+
+features:
+  rolling_windows: [5, 10]
+  elo:
+    initial_rating: 1500.0
+    k_factor_base: 30
+    home_advantage: 100.0
+
+model:
+  target: "outcome"  # win, draw, loss (from home perspective)
+  random_state: 42
+  xgb_params:
+    max_depth: 4
+    learning_rate: 0.05
+    n_estimators: 200
+    objective: "multi:softprob"
+    eval_metric: "mlogloss"
+    random_state: 42
+
+simulation:
+  n_simulations: 10000
+  random_seed: 42
