@@ -7,18 +7,17 @@ from src.utils import setup_logger, load_config, get_absolute_path
 logger = setup_logger("data_loader")
 
 class FootballDataLoader:
-    """Class responsible for fetching, caching, and loading raw football datasets."""
-    
+    #class for fetching, caching, and loading raw football datasets
     def __init__(self, config_path: str = "config.yaml"):
         self.config = load_config(config_path)
         self.raw_dir = get_absolute_path(self.config["paths"]["raw_dir"])
         os.makedirs(self.raw_dir, exist_ok=True)
-        
         self.results_url = self.config["paths"]["raw_results_url"]
         self.shootouts_url = self.config["paths"]["raw_shootouts_url"]
         self.rankings_url = self.config["paths"]["raw_rankings_url"]
-        
         self.results_path = os.path.join(self.raw_dir, "results.csv")
+        #self.rankings_url =self.config["paths"]["raw_rankings_url"]
+        #self.results_path = os.path.join(self.raw_dir, "results.csv")
         self.shootouts_path = os.path.join(self.raw_dir, "shootouts.csv")
         self.rankings_path = os.path.join(self.raw_dir, "rankings.csv")
         self.confederations_url = self.config["paths"]["raw_confederations_url"]
@@ -61,10 +60,12 @@ class FootballDataLoader:
         logger.info("Loading results dataset...")
         df_results = pd.read_csv(self.results_path)
         
-        logger.info("Loading shootouts dataset...")
+        logger.info("Loading pens dataset...")
         df_shootouts = pd.read_csv(self.shootouts_path)
-        
+        #logger.info("Loading frees dataset...")
+        #df_shootouts = pd.read_csv(self.shootouts_path)
         logger.info("Loading rankings dataset...")
+        
         df_rankings = pd.read_csv(self.rankings_path)
 
         logger.info("Loading confederations dataset...")
