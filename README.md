@@ -41,6 +41,7 @@ Football-Tournament-Predictor/
 ├── reports/
 └── tests/
     ├── test_data_loader.py
+    ├── test_features.py
     └── test_preprocessing.py
 ```
 
@@ -60,6 +61,15 @@ Football-Tournament-Predictor/
     *   Calculated ranks dynamically from points when the explicit rank column is missing.
     *   Created `notebooks/01_exploratory_data_analysis.ipynb` with interactive Plotly visualisations exploring goal distributions, outcome balances, and rank-outcome correlations.
     *   Wrote modular unit tests for data loading and preprocessing.
+
+### 📈 Day 2: Feature Engineering & Data Validation (Completed)
+*   **Engineering Highlights**:
+    *   Developed a dynamic **chess-style Elo rating** simulator tracking team strength sequentially match-by-match.
+    *   Incorporated **official FIFA weighting components** (K-factor based on match importance) and a **Goal Margin Index** to scale Elo updates based on victory dominance.
+    *   Implemented vectorized, chronological **rolling averages** (windows of 5 and 10 games) representing team form (goals scored, goals conceded, match points) shifted by 1 row to prevent data leakage.
+    *   Added dynamic **Head-to-Head (H2H)** history tracking (average goal difference, win-draw ratios) for specific team matchups prior to kickoff.
+    *   Added contextual rest indicators (days since last match) and confederation delta flags.
+    *   Wrote comprehensive unit tests verifying calculations and ensuring no data leakage.
 
 ---
 
