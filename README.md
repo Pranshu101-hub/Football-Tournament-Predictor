@@ -42,6 +42,7 @@ Football-Tournament-Predictor/
 └── tests/
     ├── test_data_loader.py
     ├── test_features.py
+    ├── test_model.py
     └── test_preprocessing.py
 ```
 
@@ -70,6 +71,16 @@ Football-Tournament-Predictor/
     *   Added dynamic **Head-to-Head (H2H)** history tracking (average goal difference, win-draw ratios) for specific team matchups prior to kickoff.
     *   Added contextual rest indicators (days since last match) and confederation delta flags.
     *   Wrote comprehensive unit tests verifying calculations and ensuring no data leakage.
+
+### 🧠 Day 3: Model Training, Evaluation, & Probability Calibration (Completed)
+*   **Engineering Highlights**:
+    *   Set up a temporal train/test split (split date `2022-01-01`) to validate models chronologically and prevent future-leakage evaluation.
+    *   Built a preprocessing pipeline scaling numeric features and one-hot encoding categorical variables (confederations).
+    *   Trained and evaluated a baseline **Regularized Logistic Regression** model and an advanced **XGBoost Classifier**.
+    *   Compared classifiers using Log Loss, Accuracy, and ROC-AUC metrics (XGBoost selected as best predictor).
+    *   Implemented **Probability Calibration** using `CalibratedClassifierCV` with Sigmoid scaling to ensure predictions closely match real-world relative frequencies.
+    *   Serialized the final calibrated model to `models/football_model.pkl` using pickle.
+    *   Wrote unit tests for label mapping and temporal splits.
 
 ---
 
