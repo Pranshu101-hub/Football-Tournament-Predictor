@@ -48,9 +48,9 @@ Football-Tournament-Predictor/
 
 ---
 
-## 📅 7-Day Development Schedule
+## 📅 Development
 
-### 🚀 Day 1: Project Setup, Data Collection, & EDA (Completed)
+### 🚀 Phase 1: Project Setup, Data Collection, & EDA (Completed)
 *   **Data Sources**:
     *   Match results (1872–present) from Mart Jürisoo's dataset.
     *   FIFA Rankings (1993–present) from Dato-Futbol.
@@ -63,7 +63,7 @@ Football-Tournament-Predictor/
     *   Created `notebooks/01_exploratory_data_analysis.ipynb` with interactive Plotly visualisations exploring goal distributions, outcome balances, and rank-outcome correlations.
     *   Wrote modular unit tests for data loading and preprocessing.
 
-### 📈 Day 2: Feature Engineering & Data Validation (Completed)
+### 📈 Phase 2: Feature Engineering & Data Validation (Completed)
 *   **Engineering Highlights**:
     *   Developed a dynamic **chess-style Elo rating** simulator tracking team strength sequentially match-by-match.
     *   Incorporated **official FIFA weighting components** (K-factor based on match importance) and a **Goal Margin Index** to scale Elo updates based on victory dominance.
@@ -72,7 +72,7 @@ Football-Tournament-Predictor/
     *   Added contextual rest indicators (days since last match) and confederation delta flags.
     *   Wrote comprehensive unit tests verifying calculations and ensuring no data leakage.
 
-### 🧠 Day 3: Model Training, Evaluation, & Probability Calibration (Completed)
+### 🧠 Phase 3: Model Training, Evaluation, & Probability Calibration (Completed)
 *   **Engineering Highlights**:
     *   Set up a temporal train/test split (split date `2022-01-01`) to validate models chronologically and prevent future-leakage evaluation.
     *   Built a preprocessing pipeline scaling numeric features and one-hot encoding categorical variables (confederations).
