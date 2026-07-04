@@ -43,7 +43,8 @@ Football-Tournament-Predictor/
     ├── test_data_loader.py
     ├── test_features.py
     ├── test_model.py
-    └── test_preprocessing.py
+    ├── test_preprocessing.py
+    └── test_simulation.py
 ```
 
 ---
@@ -81,6 +82,15 @@ Football-Tournament-Predictor/
     *   Implemented **Probability Calibration** using `CalibratedClassifierCV` with Sigmoid scaling to ensure predictions closely match real-world relative frequencies.
     *   Serialized the final calibrated model to `models/football_model.pkl` using pickle.
     *   Wrote unit tests for label mapping and temporal splits.
+
+### 🎲 Phase 4: Monte Carlo Tournament Simulator (Completed)
+*   **Engineering Highlights**:
+    *   Hardcoded the full **2026 FIFA World Cup structure** (48 teams in 12 groups of 4, qualifying top 2 + 8 best third-placed teams into a 32-team knockout bracket).
+    *   Implemented a high-performance **probability precomputation cache** (resolves all 4,140 possible home/away/neutral team matchups in 0.1s in a single batch prediction), speeding up the Monte Carlo engine by over **100x**.
+    *   Developed a non-deterministic **match simulator** sampling outcomes (Win, Draw, Loss) from multinomial calibrated probabilities and generating realistic goal counts using Poisson distributions.
+    *   Coded a robust **Group Stage engine** tracking points (3 for W, 1 for D), Goal Difference, Goals Scored, and ranking tables accordingly.
+    *   Built a **Knockout Stage engine** simulating single-elimination games with extra time/penalty shootouts decision resolution.
+    *   Created `tests/test_simulation.py` verifying probability sum conservation and bracket outcomes.
 
 ---
 

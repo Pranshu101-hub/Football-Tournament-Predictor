@@ -180,3 +180,134 @@ Confusion Matrix:
 2026-07-02 23:41:39 - preprocessing - INFO - Cleaned rankings shape: (4, 5)
 2026-07-02 23:41:39 - preprocessing - INFO - Merging rankings into match results using merge_asof...
 2026-07-02 23:41:39 - preprocessing - INFO - Merged matches shape: (2, 15)
+2026-07-04 13:40:43 - feature_engineering - INFO - Starting chronological Elo calculations...
+2026-07-04 13:40:44 - feature_engineering - INFO - Elo calculations completed. Tracked 324 teams.
+2026-07-04 13:40:44 - feature_engineering - INFO - Computing rolling form features (without lookahead)...
+2026-07-04 13:40:44 - feature_engineering - INFO - Computing pre-match Head-to-Head statistics...
+2026-07-04 13:40:49 - feature_engineering - INFO - Saved feature dataset with shape (30824, 52) to C:\Users\prans\.gemini\antigravity\scratch\Football-Tournament-Predictor\data/processed\matches_features.csv
+2026-07-04 13:41:37 - model_training - INFO - Loading feature dataset from C:\Users\prans\.gemini\antigravity\scratch\Football-Tournament-Predictor\data/processed\matches_features.csv...
+2026-07-04 13:41:38 - model_training - INFO - Data split completed. Train set: 26156 matches (before 2022-01-01). Test set: 4668 matches (since 2022-01-01).
+2026-07-04 13:41:38 - model_training - INFO - Training Baseline: Logistic Regression...
+2026-07-04 13:41:39 - model_training - INFO - === Evaluation Metrics: Logistic Regression (Baseline) ===
+2026-07-04 13:41:39 - model_training - INFO - Accuracy: 0.5990
+2026-07-04 13:41:39 - model_training - INFO - Log Loss: 0.8717
+2026-07-04 13:41:39 - model_training - INFO - ROC-AUC (OVR): 0.7390
+2026-07-04 13:41:39 - model_training - INFO - 
+Classification Report:
+              precision    recall  f1-score   support
+
+    Away Win       0.55      0.66      0.60      1361
+        Draw       0.31      0.01      0.03      1083
+    Home Win       0.63      0.85      0.72      2224
+
+    accuracy                           0.60      4668
+   macro avg       0.50      0.51      0.45      4668
+weighted avg       0.53      0.60      0.53      4668
+
+2026-07-04 13:41:39 - model_training - INFO - 
+Confusion Matrix:
+[[ 897   16  448]
+ [ 405   16  662]
+ [ 322   19 1883]]
+2026-07-04 13:41:39 - model_training - INFO - Training Advanced: XGBoost...
+2026-07-04 13:41:42 - model_training - INFO - === Evaluation Metrics: XGBoost Classifier ===
+2026-07-04 13:41:42 - model_training - INFO - Accuracy: 0.6009
+2026-07-04 13:41:42 - model_training - INFO - Log Loss: 0.8759
+2026-07-04 13:41:42 - model_training - INFO - ROC-AUC (OVR): 0.7329
+2026-07-04 13:41:42 - model_training - INFO - 
+Classification Report:
+              precision    recall  f1-score   support
+
+    Away Win       0.57      0.64      0.60      1361
+        Draw       0.31      0.01      0.03      1083
+    Home Win       0.62      0.86      0.72      2224
+
+    accuracy                           0.60      4668
+   macro avg       0.50      0.51      0.45      4668
+weighted avg       0.53      0.60      0.53      4668
+
+2026-07-04 13:41:42 - model_training - INFO - 
+Confusion Matrix:
+[[ 868   15  478]
+ [ 385   16  682]
+ [ 282   21 1921]]
+2026-07-04 13:41:42 - model_training - INFO - Selected Logistic Regression as the primary model due to lower Log Loss.
+2026-07-04 13:41:42 - model_training - INFO - Calibrating probability outputs using CalibratedClassifierCV...
+2026-07-04 13:41:45 - model_training - INFO - Evaluating Calibrated Pipeline...
+2026-07-04 13:41:45 - model_training - INFO - === Evaluation Metrics: Final Calibrated Pipeline ===
+2026-07-04 13:41:45 - model_training - INFO - Accuracy: 0.6018
+2026-07-04 13:41:45 - model_training - INFO - Log Loss: 0.8821
+2026-07-04 13:41:45 - model_training - INFO - ROC-AUC (OVR): 0.7302
+2026-07-04 13:41:45 - model_training - INFO - 
+Classification Report:
+              precision    recall  f1-score   support
+
+    Away Win       0.55      0.67      0.61      1361
+        Draw       0.53      0.01      0.02      1083
+    Home Win       0.63      0.85      0.72      2224
+
+    accuracy                           0.60      4668
+   macro avg       0.57      0.51      0.45      4668
+weighted avg       0.58      0.60      0.52      4668
+
+2026-07-04 13:41:45 - model_training - INFO - 
+Confusion Matrix:
+[[ 912    2  447]
+ [ 408    9  666]
+ [ 330    6 1888]]
+2026-07-04 13:41:45 - model_training - INFO - Model saved successfully to C:\Users\prans\.gemini\antigravity\scratch\Football-Tournament-Predictor\models\football_model.pkl
+2026-07-04 13:41:56 - simulation - INFO - Extracting latest team states for simulation features...
+2026-07-04 13:41:58 - simulation - INFO - Extracted states for 324 national teams.
+2026-07-04 13:41:59 - simulation - INFO - Starting Monte Carlo simulation engine with 1000 iterations...
+2026-07-04 13:42:17 - simulation - INFO - Extracting latest team states for simulation features...
+2026-07-04 13:42:19 - simulation - INFO - Extracted states for 324 national teams.
+2026-07-04 13:42:19 - simulation - INFO - Starting Monte Carlo simulation engine with 1000 iterations...
+2026-07-04 13:49:17 - simulation - INFO - Extracting latest team states for simulation features...
+2026-07-04 13:49:19 - data_loader - INFO - Downloading data from http://fakeurl.com/data.csv to data/raw/test_download.csv...
+2026-07-04 13:49:19 - data_loader - INFO - Download completed successfully.
+2026-07-04 13:49:19 - feature_engineering - INFO - Starting chronological Elo calculations...
+2026-07-04 13:49:19 - feature_engineering - INFO - Elo calculations completed. Tracked 3 teams.
+2026-07-04 13:49:19 - feature_engineering - INFO - Computing rolling form features (without lookahead)...
+2026-07-04 13:49:19 - model_training - INFO - Loading feature dataset from C:\Users\prans\.gemini\antigravity\scratch\Football-Tournament-Predictor\data/processed\matches_features.csv...
+2026-07-04 13:49:19 - model_training - INFO - Data split completed. Train set: 3 matches (before 2022-01-01). Test set: 2 matches (since 2022-01-01).
+2026-07-04 13:49:19 - preprocessing - INFO - Cleaning FIFA rankings dataset...
+2026-07-04 13:49:19 - preprocessing - INFO - Cleaned rankings shape: (4, 5)
+2026-07-04 13:49:19 - preprocessing - INFO - Merging rankings into match results using merge_asof...
+2026-07-04 13:49:19 - preprocessing - INFO - Merged matches shape: (2, 15)
+2026-07-04 13:49:23 - simulation - INFO - Extracted states for 324 national teams.
+2026-07-04 13:49:23 - simulation - INFO - Pre-computing probability cache for all team pairings...
+2026-07-04 13:49:31 - simulation - INFO - Pre-computed probabilities for 4140 matchups.
+2026-07-04 13:49:31 - simulation - INFO - Starting Monte Carlo simulation engine with 1000 iterations...
+2026-07-04 13:49:33 - simulation - INFO - Monte Carlo simulation completed successfully.
+2026-07-04 13:49:42 - feature_engineering - INFO - Starting chronological Elo calculations...
+2026-07-04 13:49:43 - feature_engineering - INFO - Elo calculations completed. Tracked 324 teams.
+2026-07-04 13:49:43 - feature_engineering - INFO - Computing rolling form features (without lookahead)...
+2026-07-04 13:49:43 - feature_engineering - INFO - Computing pre-match Head-to-Head statistics...
+2026-07-04 13:49:45 - feature_engineering - INFO - Saved feature dataset with shape (30824, 52) to C:\Users\prans\.gemini\antigravity\scratch\Football-Tournament-Predictor\data/processed\matches_features.csv
+2026-07-04 13:49:51 - data_loader - INFO - Downloading data from http://fakeurl.com/data.csv to data/raw/test_download.csv...
+2026-07-04 13:49:51 - data_loader - INFO - Download completed successfully.
+2026-07-04 13:49:51 - feature_engineering - INFO - Starting chronological Elo calculations...
+2026-07-04 13:49:51 - feature_engineering - INFO - Elo calculations completed. Tracked 3 teams.
+2026-07-04 13:49:51 - feature_engineering - INFO - Computing rolling form features (without lookahead)...
+2026-07-04 13:49:51 - model_training - INFO - Loading feature dataset from C:\Users\prans\.gemini\antigravity\scratch\Football-Tournament-Predictor\data/processed\matches_features_test_temp.csv...
+2026-07-04 13:49:51 - model_training - INFO - Data split completed. Train set: 3 matches (before 2022-01-01). Test set: 2 matches (since 2022-01-01).
+2026-07-04 13:49:51 - preprocessing - INFO - Cleaning FIFA rankings dataset...
+2026-07-04 13:49:51 - preprocessing - INFO - Cleaned rankings shape: (4, 5)
+2026-07-04 13:49:51 - preprocessing - INFO - Merging rankings into match results using merge_asof...
+2026-07-04 13:49:51 - preprocessing - INFO - Merged matches shape: (2, 15)
+2026-07-04 13:49:51 - simulation - INFO - Extracting latest team states for simulation features...
+2026-07-04 13:49:52 - simulation - INFO - Extracted states for 324 national teams.
+2026-07-04 13:49:52 - simulation - INFO - Pre-computing probability cache for all team pairings...
+2026-07-04 13:49:55 - simulation - INFO - Pre-computed probabilities for 4140 matchups.
+2026-07-04 13:49:55 - simulation - INFO - Extracting latest team states for simulation features...
+2026-07-04 13:49:56 - simulation - INFO - Extracted states for 324 national teams.
+2026-07-04 13:49:56 - simulation - INFO - Pre-computing probability cache for all team pairings...
+2026-07-04 13:49:59 - simulation - INFO - Pre-computed probabilities for 4140 matchups.
+2026-07-04 13:49:59 - simulation - INFO - Extracting latest team states for simulation features...
+2026-07-04 13:50:00 - simulation - INFO - Extracted states for 324 national teams.
+2026-07-04 13:50:00 - simulation - INFO - Pre-computing probability cache for all team pairings...
+2026-07-04 13:50:02 - simulation - INFO - Pre-computed probabilities for 4140 matchups.
+2026-07-04 13:50:03 - simulation - INFO - Extracting latest team states for simulation features...
+2026-07-04 13:50:04 - simulation - INFO - Extracted states for 324 national teams.
+2026-07-04 13:50:04 - simulation - INFO - Pre-computing probability cache for all team pairings...
+2026-07-04 13:50:06 - simulation - INFO - Pre-computed probabilities for 4140 matchups.

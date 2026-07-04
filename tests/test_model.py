@@ -8,6 +8,8 @@ from src.model_training import ModelTrainer
 class TestModelTraining(unittest.TestCase):
     def setUp(self):
         self.trainer = ModelTrainer("config.yaml")
+        # Use a temporary test features path to avoid deleting matches_features.csv
+        self.trainer.features_path = os.path.join(self.trainer.processed_dir, "matches_features_test_temp.csv")
         
         # Create a mock matches feature dataset for testing
         self.mock_features = pd.DataFrame({
