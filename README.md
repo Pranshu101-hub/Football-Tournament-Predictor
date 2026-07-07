@@ -31,9 +31,7 @@ Football-Tournament-Predictor/
 │   ├── preprocessing.py
 │   ├── feature_engineering.py
 │   ├── model_training.py
-│   ├── prediction.py
 │   ├── simulation.py
-│   ├── visualization.py
 │   └── utils.py
 ├── dashboard/
 │   └── app.py
@@ -92,6 +90,15 @@ Football-Tournament-Predictor/
     *   Built a **Knockout Stage engine** simulating single-elimination games with extra time/penalty shootouts decision resolution.
     *   Created `tests/test_simulation.py` verifying probability sum conservation and bracket outcomes.
 
+### 💻 Phase 5: Interactive Web Dashboard (Completed)
+*   **Engineering Highlights**:
+    *   Developed a premium-grade **Streamlit web application** (`dashboard/app.py`) built with vanilla CSS styling overrides for dark mode visualization.
+    *   Integrated resource caching (`@st.cache_resource`) to hold the `TournamentSimulator` instance, avoiding matchup precomputation overhead on re-renders.
+    *   Designed three interactive tabs:
+        *   **Tournament Simulations**: Displays champion winning probabilities in a clean horizontal Plotly bar chart, including metrics (Favorite, unique winners, dark horse) and a tabular overview of all 48 teams' odds.
+        *   **Custom Match Predictor**: Allows users to configure any matchup (including neutral venue toggles), view W-D-L distribution graphs, and simulate live scorelines (complete with penalty shootout resolutions).
+        *   **Groups & Standings**: Renders the 12 groups of the 2026 World Cup in a structured card layout.
+
 ---
 
 ## Installation & Setup
@@ -107,12 +114,24 @@ Football-Tournament-Predictor/
    pip install -r requirements.txt
    ```
 
-3. **Run Preprocessing**:
+3. **Run Pipeline Steps**:
    ```bash
+   # Preprocess data
    python -m src.preprocessing
+
+   # Extract features
+   python -m src.feature_engineering
+
+   # Train and calibrate models
+   python -m src.model_training
    ```
 
-4. **Run Unit Tests**:
+4. **Launch Dashboard**:
+   ```bash
+   streamlit run dashboard/app.py
+   ```
+
+5. **Run Unit Tests**:
    ```bash
    python -m pytest
    ```

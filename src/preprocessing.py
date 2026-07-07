@@ -6,7 +6,6 @@ from src.utils import setup_logger, load_config, get_absolute_path
 
 logger = setup_logger("preprocessing")
 
-# team name map for dataset alignment
 TEAM_NAME_MAP = {
     "USA": "United States",
     "US Virgin Islands": "U.S. Virgin Islands",
@@ -31,83 +30,69 @@ TEAM_NAME_MAP = {
 }
 
 def clean_team_name(name: str) -> str:
-    # standardize team name
     if not isinstance(name, str):
         return str(name)
     name = name.strip()
     return TEAM_NAME_MAP.get(name, name)
 
 class FootballPreprocessor:
-    # preprocess and merge datasets without lookahead bias
-    
+    # Cleans and merges raw matches and rankings
     def __init__(self, config_path: str = "config.yaml"):
         self.config = load_config(config_path)
         self.start_year = self.config["preprocessing"]["start_year"]
         self.processed_dir = get_absolute_path(self.config["paths"]["processed_dir"])
         os.makedirs(self.processed_dir, exist_ok=True)
-        
         self.processed_matches_path = os.path.join(self.processed_dir, "matches_cleaned.csv")
         self.processed_rankings_path = os.path.join(self.processed_dir, "rankings_cleaned.csv")
 
     def clean_rankings(self, df_rankings: pd.DataFrame) -> pd.DataFrame:
-        # clean fifa rankings dataset
-        logger.info("Cleaning FIFA rankings dataset...")
+        logger.info("Cleaning FIFA rankings...")
         df = df_rankings.copy()
         
-        # parse dates
         date_col = "rank_date" if "rank_date" in df.columns else ("date" if "date" in df.columns else None)
         if not date_col:
-            raise KeyError("Could not find a valid date column in rankings dataset.")
+            raise KeyError("Could not find date column in rankings.")
             
         df["rank_date"] = pd.to_datetime(df[date_col])
         
-        # standardize country column
         country_col = None
         for col in ["country_full", "country", "team"]:
             if col in df.columns:
                 country_col = col
                 break
         if not country_col:
-            raise KeyError("Could not find a valid country name column in rankings dataset.")
+            raise KeyError("Could not find country column in rankings.")
             
         df["team"] = df[country_col].apply(clean_team_name)
         
-        # standardize points
         if "total_points" in df.columns:
             df["points"] = df["total_points"]
         elif "points" not in df.columns:
             df["points"] = 0.0
             
-        # compute missing ranks
         if "rank" not in df.columns:
-            logger.info("Rank column not found in raw rankings data. Calculating rank dynamically from points...")
+            logger.info("Rank column missing, calculating dynamically...")
             df["rank"] = df.groupby("rank_date")["points"].rank(ascending=False, method="min")
             
-        # filter columns
         keep_cols = ["rank_date", "team", "rank", "points", "confederation"]
         keep_cols = [c for c in keep_cols if c in df.columns]
         df = df[keep_cols]
-        
-        # sort for merge_asof
         df = df.sort_values(by="rank_date").reset_index(drop=True)
         
-        logger.info(f"Cleaned rankings shape: {df.shape}")
+        # [DEBUG print sample rankings]
+        # print("[DEBUG clean_rankings] head:\n", df.head(3))
+        
+        logger.info(f"Cleaned rankings: {df.shape}")
         return df
 
     def clean_matches(self, df_results: pd.DataFrame, df_shootouts: pd.DataFrame) -> pd.DataFrame:
-        # clean match results dataset
-        logger.info("Cleaning match results dataset...")
+        logger.info("Cleaning matches...")
         df = df_results.copy()
-        
-        # parse dates and filter by start year
         df["date"] = pd.to_datetime(df["date"])
         df = df[df["date"].dt.year >= self.start_year].reset_index(drop=True)
-        
-        # standardize team names
         df["home_team"] = df["home_team"].apply(clean_team_name)
         df["away_team"] = df["away_team"].apply(clean_team_name)
         
-        # merge shootout results
         df_shootouts_clean = df_shootouts.copy()
         df_shootouts_clean["date"] = pd.to_datetime(df_shootouts_clean["date"])
         df_shootouts_clean["home_team"] = df_shootouts_clean["home_team"].apply(clean_team_name)
@@ -120,7 +105,6 @@ class FootballPreprocessor:
             how="left"
         )
         
-        # map match target outcomes
         def determine_outcome(row):
             if row["home_score"] > row["away_score"]:
                 return "W"
@@ -130,24 +114,20 @@ class FootballPreprocessor:
                 return "D"
                 
         df["outcome"] = df.apply(determine_outcome, axis=1)
-        
-        # compute goal diff
         df["goal_difference"] = df["home_score"] - df["away_score"]
-        
-        # sort for merge_asof
         df = df.sort_values(by="date").reset_index(drop=True)
         
-        logger.info(f"Cleaned matches shape: {df.shape}")
+        # [DEBUG match outcome mapping validation]
+        # print(f"[DEBUG outcome counts] {df['outcome'].value_counts().to_dict()}")
+        
+        logger.info(f"Cleaned matches: {df.shape}")
         return df
 
     def merge_rankings(self, df_matches: pd.DataFrame, df_rankings: pd.DataFrame) -> pd.DataFrame:
-        # merge rankings without lookahead bias
-        logger.info("Merging rankings into match results using merge_asof...")
-        
+        logger.info("Merging rankings (merge_asof)...")
         df_matches = df_matches.sort_values(by="date").reset_index(drop=True)
         df_rankings = df_rankings.sort_values(by="rank_date").reset_index(drop=True)
         
-        # map home team rankings
         df_rankings_home = df_rankings.rename(columns={
             "team": "home_team",
             "rank": "home_rank",
@@ -165,7 +145,6 @@ class FootballPreprocessor:
             direction="backward"
         )
         
-        # map away team rankings
         df_rankings_away = df_rankings.rename(columns={
             "team": "away_team",
             "rank": "away_rank",
@@ -183,24 +162,23 @@ class FootballPreprocessor:
             direction="backward"
         )
         
-        # fill missing rankings with defaults
         merged["home_rank"] = merged["home_rank"].fillna(200.0)
         merged["away_rank"] = merged["away_rank"].fillna(200.0)
         merged["home_points"] = merged["home_points"].fillna(0.0)
         merged["away_points"] = merged["away_points"].fillna(0.0)
         
-        logger.info(f"Merged matches shape: {merged.shape}")
+        # [DEBUG merge rankings check]
+        # print("[DEBUG merge_rankings] null counts:\n", merged[["home_rank", "away_rank"]].isnull().sum())
+        
+        logger.info(f"Merged matches: {merged.shape}")
         return merged
 
     def add_confederations(self, df: pd.DataFrame, df_conf: pd.DataFrame) -> pd.DataFrame:
-        # map teams to regional confederations
-        logger.info("Adding confederation information to matches...")
-        
+        logger.info("Adding confederation metadata...")
         df_conf_clean = df_conf.copy()
         df_conf_clean["team"] = df_conf_clean["country"].apply(clean_team_name)
         conf_map = dict(zip(df_conf_clean["team"], df_conf_clean["confederation"]))
         
-        # regional fallbacks
         fallback_conf = {
             "England": "UEFA", "Scotland": "UEFA", "Wales": "UEFA", "Northern Ireland": "UEFA",
             "Republic of Ireland": "UEFA", "Gibraltar": "UEFA", "Kosovo": "UEFA",
@@ -241,7 +219,6 @@ class FootballPreprocessor:
         
         full_map = {**fallback_conf, **conf_map}
         
-        # fallbacks using tournament keywords
         def get_conf(team: str, tournament: str = "") -> str:
             if team in full_map:
                 return full_map[team]
@@ -273,7 +250,7 @@ class FootballPreprocessor:
         df_rankings: pd.DataFrame,
         df_confederations: pd.DataFrame
     ) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        # run pipeline and write outputs
+        # Run preprocessing and save outputs
         cleaned_rankings = self.clean_rankings(df_rankings)
         cleaned_matches_raw = self.clean_matches(df_results, df_shootouts)
         
@@ -282,8 +259,13 @@ class FootballPreprocessor:
         
         merged_matches.to_csv(self.processed_matches_path, index=False)
         cleaned_rankings.to_csv(self.processed_rankings_path, index=False)
-        logger.info(f"Saved processed data to {self.processed_dir}")
         
+        # [UNUSED MOCK ANALYSIS CODE BLOCK - for context reference]
+        # def log_confederation_distribution(df):
+        #     dist = df['home_confederation'].value_counts()
+        #     print(f"[DEBUG conf_dist]\n{dist}")
+            
+        logger.info(f"Saved preprocessed files to {self.processed_dir}")
         return merged_matches, cleaned_rankings
 
 if __name__ == "__main__":
@@ -292,5 +274,3 @@ if __name__ == "__main__":
     r, s, rk, c = loader.load_raw_data()
     preprocessor = FootballPreprocessor()
     m_clean, r_clean = preprocessor.process_and_save(r, s, rk, c)
-    print("Preprocessed matches head:")
-    print(m_clean[["date", "home_team", "away_team", "home_rank", "away_rank", "outcome", "home_confederation"]].head())
