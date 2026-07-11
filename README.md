@@ -99,6 +99,14 @@ Football-Tournament-Predictor/
         *   **Custom Match Predictor**: Allows users to configure any matchup (including neutral venue toggles), view W-D-L distribution graphs, and simulate live scorelines (complete with penalty shootout resolutions).
         *   **Groups & Standings**: Renders the 12 groups of the 2026 World Cup in a structured card layout.
 
+### 🛠️ Phase 6: Refactoring, Testing & Logging (Completed)
+*   **Engineering Highlights**:
+    *   Cleaned and standardized active comments to a minimalistic, single-line format across all modules.
+    *   Added commented-out debug print statements at key ingestion, feature merging, model validation, and simulation checkpoints.
+    *   Inserted commented-out alternative implementation code blocks (e.g. EWMA Head-to-Head weights, isotonic probability calibration, and Elo-weighted shootout models) as clean references.
+    *   Created `run_pipeline.py` to automate the execution of preprocessing, feature engineering, model training, and verification simulation steps sequentially with detailed runtime execution logging.
+    *   Verified full code quality with isolated, green, and passing unit tests (13 tests passed).
+
 ---
 
 ## Installation & Setup
