@@ -20,6 +20,8 @@ Football-Tournament-Predictor/
 ├── config.yaml
 ├── requirements.txt
 ├── README.md
+├── walkthrough.md
+├── run_pipeline.py
 ├── data/
 │   ├── raw/           # Raw downloaded CSVs (git-ignored)
 │   └── processed/     # Cleaned and merged CSVs (git-ignored)
@@ -106,6 +108,12 @@ Football-Tournament-Predictor/
     *   Inserted commented-out alternative implementation code blocks (e.g. EWMA Head-to-Head weights, isotonic probability calibration, and Elo-weighted shootout models) as clean references.
     *   Created `run_pipeline.py` to automate the execution of preprocessing, feature engineering, model training, and verification simulation steps sequentially with detailed runtime execution logging.
     *   Verified full code quality with isolated, green, and passing unit tests (13 tests passed).
+
+### 🏁 Phase 7: Final Presentation & Delivery (Completed)
+*   **Engineering Highlights**:
+    *   Completed the project walkthrough document (`walkthrough.md`) detailing the full engineering milestones.
+    *   Synchronized and verified all modules on git.
+    *   Updated folder descriptions and setup instructions in `README.md`.
 
 ---
 
