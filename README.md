@@ -62,13 +62,13 @@ Football-Tournament-Predictor/
 
 3. **Run Pipeline Steps**:
    ```bash
-   # Preprocess data
+   # preprocess data
    python -m src.preprocessing
 
-   # Extract features
+   # extract features
    python -m src.feature_engineering
 
-   # Train and calibrate models
+   # train calibrate model
    python -m src.model_training
    ```
 
