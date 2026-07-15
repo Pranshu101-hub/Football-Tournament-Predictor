@@ -49,7 +49,11 @@ Football-Tournament-Predictor/
 
 ---
 ## Project Overview
-Built a full football analytics and World Cup simulation project from scratch, covering data collection, cleaning, feature engineering, modeling, calibration, simulation, and deployment. I combined 3 major data sources, standardized team names, avoided leakage with time-aware merges, and created rolling form, Elo, head-to-head, rest-day, and confederation features. I then trained and compared Logistic Regression and XGBoost using a chronological split, calibrated the final model, and saved it for reuse. On top of that, I built a fast Monte Carlo simulator for the 2026 World Cup’s 48-team format with 12 groups and a 32-team knockout stage, plus a Streamlit dashboard for tournament odds, custom match predictions, and standings. The project is fully tested, logged, documented, and ready for end-to-end use, with 13 passing unit tests and a precomputed matchup cache that speeds simulations by over 100x.
+Built an end-to-end football analytics project from scratch, covering data collection, cleaning, feature engineering, modeling, calibration, simulation, and deployment.
+Combined 3 data sources, standardized team names, used time-aware merges to avoid leakage, and engineered rolling form, Elo, head-to-head, rest-day, and confederation features.
+Trained and compared Logistic Regression and XGBoost with a chronological split, then calibrated and saved the final model for reuse.
+Developed a fast Monte Carlo simulator for the 2026 World Cup’s 48-team, 12-group format with a 32-team knockout stage.
+Built a Streamlit dashboard for tournament odds, custom match predictions, and standings, with 13 passing tests and a matchup cache that speeds simulations by over 100x.
 
 
 ---
