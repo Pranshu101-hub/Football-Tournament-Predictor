@@ -2,15 +2,6 @@
 
 This is a comprehensive machine learning project designed to forecast the results of international football (soccer) matches and to simulate entire tournaments using Monte Carlo techniques.
 
-# Overview
-
-This repository features a professional-grade machine learning pipeline that:
-1. **Data Ingestion & Preprocessing**: Cleans international match results and historical FIFA rankings; consolidates match names and merges features without introducing lookahead bias.
-2. **Feature Development**: Generates dynamic Elo ratings, monitors team performance, and compiles statistics for head-to-head matchups.
-3. **Model Training & Calibration**: Constructs and evaluates various models (Logistic Regression, Random Forest, XGBoost) to yield calibrated probabilities for match outcomes.
-4. **Monte Carlo Simulation**: Conducts simulations of tournament formats (e.g., the World Cup) up to 10,000 times to identify potential champions, qualification chances, and stage-by-stage probabilities.
-5. **Interactive Dashboard**: Provides insights, live predictions for matches, and tournament simulations via a Streamlit web application.
-
 ---
 
 ## Folder Structure
@@ -52,7 +43,7 @@ Football-Tournament-Predictor/
 - **Pipeline & Ingestion**: Cleaned match records and FIFA rankings from raw 1872 (filtered 1993–present) without lookahead bias, standardizing names across datasets.
 - **Feature Engineering**: Extracted dynamic Elo ratings, H2H histories, and leakage-free rolling goal averages over windows of 5 and 10 games.
 - **ML Model & Calibration**: Trained Logistic Regression (test log loss: 0.87) and XGBoost, calibrating probabilities via cross-validated Platt scaling.
-- **Monte Carlo WC Simulator**: Coded the 48-team 2026 World Cup structure (12 groups of 4). Optimized loops 100x using a 4,140 matchup precomputation cache.
+- **Monte Carlo Simulation**: Conducts simulations of tournament formats (e.g., the World Cup) up to 10,000 times to identify potential champions, qualification chances, and stage-by-stage probabilities.
 - **Dashboard & Verification**: Designed a dark-themed 3-tab Streamlit web application (app.py) and verified all code quality with 13 passing unit tests.
 ---
 
