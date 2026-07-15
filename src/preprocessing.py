@@ -88,6 +88,8 @@ class FootballPreprocessor:
     def clean_matches(self, df_results: pd.DataFrame, df_shootouts: pd.DataFrame) -> pd.DataFrame:
         logger.info("Cleaning matches...")
         df = df_results.copy()
+        # Drop matches with missing team names or score values
+        df = df.dropna(subset=["home_team", "away_team", "home_score", "away_score"]).reset_index(drop=True)
         df["date"] = pd.to_datetime(df["date"])
         df = df[df["date"].dt.year >= self.start_year].reset_index(drop=True)
         df["home_team"] = df["home_team"].apply(clean_team_name)
