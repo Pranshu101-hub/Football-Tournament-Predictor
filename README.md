@@ -1,6 +1,6 @@
 ## Football Tournament Predictor
 
-This is a comprehensive machine learning project designed to forecast the results of international football (soccer) matches and to simulate entire tournaments using Monte Carlo techniques.
+This is a comprehensive ml project designed to predict the results of international football matches and simulate tournaments using Monte Carlo methods.
 
 ---
 
